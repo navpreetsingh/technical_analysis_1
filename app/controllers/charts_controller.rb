@@ -457,7 +457,7 @@ private
         addIndicator(m, params["Indicator2"], indicatorHeight)
         addIndicator(m, params["Indicator3"], indicatorHeight)
         addIndicator(m, params["Indicator4"], indicatorHeight)
-
+       
         return m
     end
 
@@ -590,5 +590,23 @@ public
         # Output the chart
         send_data(c.makeChart2(ChartDirector::PNG), :type => "image/png",
             :disposition => "inline")
+    end
+    
+    def index     
+      # create the finance chart
+      c = drawChart()
+      
+      # Create the WebChartViewer object
+      @viewer = ChartDirector::WebChartViewer.new(request, "chart11")
+         
+      # Create the image and save it in a session variable
+      session[@viewer.getId()] = c.makeChart2(ChartDirector::PNG) 
+      
+      # Set the chart URL to the viewer
+      @viewer.setImageUrl(url_for(:action => "get_session_data", :id => @viewer.getId(),
+      :nocache => rand))
+   
+      # Output Javascript chart model to the browser to support tracking cursor
+      @viewer.setChartModel(c.getJsChartModel())
     end
 end
