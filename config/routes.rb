@@ -1,5 +1,7 @@
 AutomatedSystem1::Application.routes.draw do
   
+  get "charts1/index"
+
   get "cddemo/index"
 
   # The priority is based upon order of creation:
